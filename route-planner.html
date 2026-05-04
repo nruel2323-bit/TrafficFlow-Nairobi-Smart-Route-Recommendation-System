@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficFlow | Route Planner</title>
+</head>
+<body class="planner-page">
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="route-planner.html" class="active">Plan Route</a></li>
+                <li><a href="insights.html">Insights</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="planner-container">
+        <section class="glass-panel">
+            <h2>Smart Route Engine</h2>
+            <p>Input your details to calculate the perfect departure time.</p>
+            <form id="trafficForm">
+                <div class="input-group">
+                    <label for="dest">Destination</label>
+                    <input type="text" id="dest" placeholder="e.g. Westlands" required>
+                </div>
+                <div class="factors-grid">
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="isRaining">
+                    </label>
+                    <label class="checkbox-container">
+                        <input type="checkbox" id="isEvent">
+                    </label>
+
+                </div>
+                <button type="submit" class="calc-btn"Save & Analyse Route></button>
+            </form>
+            <div id="formFeedback"></div>
+        </section>
+
+    </main>
+    <script src="js/planner.js"></script>
+</body>
+</html>
