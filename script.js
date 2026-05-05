@@ -21,6 +21,19 @@ const nairobiCoordinates = {
  * 2. SMART FACTOR MULTIPLIERS
  * Weights for Weather (Rain/Sun) and Nairobi Events (Nyayo/Protests).
  */
+const smartFactors = {
+  weather: {
+    clear: 1.0,
+    "light-rain": 1.3,
+    "heavy-rain": 2.0, // In Nairobi, heavy rain usually doubles travel time
+  },
+  incidents: {
+    none: 0,
+    "nyayo-event": 25, // Minutes added
+    "mombasa-rd-accident": 20,
+    "cbd-protest": 45,
+  },
+};
 // [Multipliers Object will go here]
 
 /**
@@ -36,6 +49,16 @@ const nairobiCoordinates = {
  * based on the Smart Factor Multipliers.
  */
 // [calculateSmartTime Function]
+function calculateSmartTime(baseMinutes, weatherKey, incidentKey) {
+  // 1. Apply the weather multiplier first
+  let adjustedTime = baseMinutes * smartFactors.weather[weatherKey];
+
+  // 2. Add the incident delay in minutes
+  adjustedTime += smartFactors.incidents[incidentKey];
+
+  // 3. Return as a rounded number
+  return Math.round(adjustedTime);
+}
 
 /**
  * 5. DATA PERSISTENCE (LocalStorage)
