@@ -42,6 +42,57 @@ const smartFactors = {
  */
 // [initMap Function]
 // [calculateAndDisplayRoute Function]
+let map, directionsService, directionsRenderer;
+
+function initMap() {
+  // 1. Initialize the Google Services
+  directionsService = new google.maps.DirectionsService();
+  directionsRenderer = new google.maps.DirectionsRenderer();
+
+  // 2. Set the default center (Nairobi CBD)
+  const nairobiCenter = nairobiCoordinates["cbd"];
+
+  // 3. Create the map inside the 'map' div
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: nairobiCenter,
+    // Disable default UI for a cleaner Glassmorphism look
+    disableDefaultUI: true,
+    zoomControl: true,
+  });
+
+  // 4. Tell the renderer to display the directions on this map
+  directionsRenderer.setMap(map);
+}
+
+/**
+ * Function to fetch routes from Google and trigger the Smart Factor
+ */
+function calculateAndDisplayRoute(startKey, endKey, weather, incident) {
+  const start = nairobiCoordinates[startKey];
+  const end = nairobiCoordinates[endKey];
+
+  const request = {
+    origin: start,
+    destination: end,
+    travelMode: google.maps.TravelMode.DRIVING,
+    provideRouteAlternatives: true, // This gets us the "Alternative Routes" for the rubric
+  };
+
+  directionsService.route(request, (response, status) => {
+    if (status === "OK") {
+      // Display the routes on the map
+      directionsRenderer.setDirections(response);
+
+      // Now we send this data to a function that builds the choice buttons
+      // (We will write this function in the next part)
+      displayAltRouteChoices(response.routes, weather, incident);
+    } else {
+      console.error("Map request failed: " + status);
+      alert("Could not find route. Please check your locations.");
+    }
+  });
+}
 
 /**
  * 4. THE SMART ALGORITHM
