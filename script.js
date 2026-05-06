@@ -115,6 +115,23 @@ function calculateSmartTime(baseMinutes, weatherKey, incidentKey) {
  * 5. DATA PERSISTENCE (LocalStorage)
  * Handling the saving of route history so it appears on the Insights Page.
  */
+function saveRouteToHistory(routeData, smartTime, weather){
+  // Create a clean object with the info we need
+  const tripEntry = {
+    id: Date.now(), 
+    origin: routeData.legs[0].start_address,
+    destination: routeData.legs[0].end_address,
+    distance: routeData.legs[0].end_address,
+    distance: routeData.legs[0].distance.text,
+    duration: smartTime + "mins",
+    condition: weather,
+    date: new Date().toLocaleDateString()
+  };
+  let tripHistory = JSON.parse(localStorage.getItem("trafficFlow_history")) || [];
+tripHistory.unshift(tripEntry);
+localStorage.setItem('trafficFlow_history', JSON.stringify(tripHistory));
+console.log("Trip saved to LocalStorage successfully.");
+}
 // [saveRouteToHistory Function]
 // [loadRouteHistory Function]
 
