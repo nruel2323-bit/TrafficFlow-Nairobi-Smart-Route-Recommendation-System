@@ -83,7 +83,14 @@ function calculateAndDisplayRoute(startKey, endKey, weather, incident) {
     if (status === "OK") {
       // Display the routes on the map
       directionsRenderer.setDirections(response);
-
+      // Get the first route's base time (in seconds) and convert to minutes
+      const baseTimeMinutes = Math.floor(response.routes[0].legs[0].duration.value / 60);
+// Calculate the SMART time using our Step 4 algorithm
+      const smartTime = calculateSmartTime(baseTimeMinutes, weather, incident);
+// Update the UI (Display it on the screen)
+document.getElementById("time-output").innerText = "Estimated Smart Time: " + smartTime + "mins";
+// Save to history (call step 5 function)
+saveRouteToHistory(response.routes[0], smartTime, weather);
       // Now we send this data to a function that builds the choice buttons
       // (We will write this function in the next part)
       displayAltRouteChoices(response.routes, weather, incident);
@@ -93,7 +100,29 @@ function calculateAndDisplayRoute(startKey, endKey, weather, incident) {
     }
   });
 }
-
+/**
+ * Helper Function : Build buttons for alternative routes
+ */
+function displayAltRouteChoices (routes, weather, incident) {
+  const altContainer = document.getElementById("alt-routes");
+  if (altContainer) {
+    altContainer.innerHTML = "<h4>Alternative Routes:</h4>";
+    routes.forEach((route, index) => {
+      const baseMins = Math.floor(route.legs[0].duration.value / 60);
+      const altSmartTime = calculateSmartTime(baseMins, weather, incident);
+      const btn = document.createElement("button");
+      btn.className = "glass-btn-small";
+      btn.style.margin= "5px";
+      btn.innerHTML = '<b>Option ${index +1}:</b> ${route.summary}<br><small>${altSmartTime} mins</small></b>';
+      btn.onclick = () => {
+        directionsRenderer.setRouteIndex(index);
+        document.getElementById("time-output").innerText = "Selected Route Time: " + altSmartTime + "mins";
+        saveRouteToHistory(route, altSmartTime, weather); 
+    };
+    altContainer.appendChild(btn);
+  });
+}
+}
 /**
  * 4. THE SMART ALGORITHM
  * Function that takes base travel time and adjusts it
