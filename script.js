@@ -147,14 +147,13 @@ function calculateSmartTime(baseMinutes, weatherKey, incidentKey) {
 function saveRouteToHistory(routeData, smartTime, weather){
   // Create a clean object with the info we need
   const tripEntry = {
-    id: Date.now(), 
+    id: Date.now(),
     origin: routeData.legs[0].start_address,
-    destination: routeData.legs[0].end_address,
-    distance: routeData.legs[0].end_address,
-    distance: routeData.legs[0].distance.text,
+    destination:routeData.legs[0].end_address,
+    distance:routeData.legs[0].distance.text,
     duration: smartTime + "mins",
     condition: weather,
-    date: new Date().toLocaleDateString()
+    date: new Date().toLocaleDateString(),
   };
   let tripHistory = JSON.parse(localStorage.getItem("trafficFlow_history")) || [];
 tripHistory.unshift(tripEntry);
@@ -171,3 +170,24 @@ console.log("Trip saved to LocalStorage successfully.");
  */
 // [Form Submit Listener]
 // [Input Validation Logic]
+const routeForm = document.getElementById("route-form");
+
+if(routeForm) {
+  routeForm.addEventListener("submit", function(event){
+    event.preventDefault();
+    const start = document.getElementById("start-point").value;
+    const end = document.getElementById("destination-point").value;
+    const weather = document.getElementById("weather-factor").value;
+    const incident = document.getElementById("incident-factor").value;
+   
+    if (start === end){
+      alert("Starting point and destination cannot be the same!");
+      return;
+    }
+
+    const resultArea = document.getElementById("route-result");
+    if (resultArea) resultArea.style.display = "block";
+
+    calculateAndDisplayRoute(start, end, weather, incident);
+  });
+}
