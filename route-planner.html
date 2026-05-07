@@ -1,59 +1,76 @@
-<main class="planner-container">
-    <section class="glass-panel">
-        <h2>Smart Route Engine</h2>
-        <p>Select your trip details for the Nairobi Smart calculation.</p>
-        
-        <!-- FIX 1: Change ID to route-form to match script.js -->
-        <form id="route-form">
-            <div class="input-group">
-                <label>Starting Point</label>
-                <select id="start-point" class="glass-input" required>
-                    <option value="cbd">Nairobi CBD</option>
-                    <option value="westlands">Westlands</option>
-                    <option value="upperhill">Upper Hill</option>
-                    <option value="jkia">JKIA</option>
-                </select>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrafficFlow | Route Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="planner-page">
+    <header>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="route-planner.html" class="active">Plan Route</a></li>
+                <li><a href="insights.html">Insights</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="planner-container">
+        <section class="glass-panel">
+            <h2>Smart Route Engine</h2>
+            <p>Input your details to calculate the perfect departure time.</p>
+            <form id="route-form"> <div class="input-group">
+        <label>Starting Point</label>
+        <select id="start-point" class="glass-input" required>
+            <option value="cbd">Nairobi CBD</option>
+            <option value="westlands">Westlands</option>
+            <option value="upperhill">Upper Hill</option>
+            <option value="jkia">JKIA</option>
+        </select>
+    </div>
 
-            <div class="input-group">
-                <label>Destination</label>
-                <select id="destination-point" class="glass-input" required>
-                    <option value="westlands" selected>Westlands</option>
-                    <option value="cbd">Nairobi CBD</option>
-                    <option value="kilimani">Kilimani</option>
-                    <option value="jkia">JKIA</option>
-                </select>
-            </div>
+    <div class="input-group">
+        <label>Destination</label>
+        <select id="destination-point" class="glass-input" required>
+            <option value="westlands">Westlands</option>
+            <option value="cbd">Nairobi CBD</option>
+            <option value="kilimani">Kilimani</option>
+            <option value="jkia">JKIA</option>
+        </select>
+    </div>
 
-            <div class="factors-grid">
-                <div class="input-group">
-                    <label>Weather</label>
-                    <select id="weather-factor">
-                        <option value="clear">Clear Skies</option>
-                        <option value="light-rain">Light Rain</option>
-                        <option value="heavy-rain">Heavy Rain</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Incidents</label>
-                    <select id="incident-factor">
-                        <option value="none">No Incidents</option>
-                        <option value="nyayo-event">Nyayo Stadium Event</option>
-                        <option value="cbd-protest">CBD Protest</option>
-                    </select>
-                </div>
-            </div>
+    <div class="factors-grid">
+        <div class="input-group">
+            <label>Weather</label>
+            <select id="weather-factor">
+                <option value="clear">Clear Skies</option>
+                <option value="light-rain">Light Rain</option>
+                <option value="heavy-rain">Heavy Rain</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Incidents</label>
+            <select id="incident-factor">
+                <option value="none">No Incidents</option>
+                <option value="nyayo-event">Nyayo Event</option>
+                <option value="cbd-protest">CBD Protest</option>
+            </select>
+        </div>
+    </div>
 
-            <button type="submit" class="calc-btn">Get Smart Route</button>
-        </form>
-    </section>
+    <button type="submit" class="calc-btn">Save & Analyse Route</button>
+</form>
+<div id="route-result" style="display: none; margin-top: 20px;">
+    <h3 id="time-output" style="color: #3498db; font-size: 1.5rem;"></h3>
+    <div id="alt-routes"></div> </div>
 
-    <!-- FIX 2: Added containers for the Map and Results -->
-    <section id="route-result" style="display: none;" class="glass-panel">
-        <h3 id="time-output">Calculating...</h3>
-        <div id="alt-routes"></div>
-    </section>
+<div id="map" style="width: 100%; height: 400px; margin-top: 25px; border-radius: 15px;"></div>
+            <div id="formFeedback"></div>
+        </section>
 
-    <!-- FIX 3: Added the Map Div -->
-    <div id="map" style="width: 100%; height: 400px; margin-top: 20px; border-radius: 15px;"></div>
-</main>
+    </main>
+ <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAk849_6mV5Z6c_NE_DHbNYesXSVylYycQ&callback=initMap" async defer></script>   
+    <script src="script.js"></script>
+</body>
+</html>

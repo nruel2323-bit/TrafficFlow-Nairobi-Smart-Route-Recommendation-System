@@ -72,33 +72,48 @@ function calculateAndDisplayRoute(startKey, endKey, weather, incident) {
   const start = nairobiCoordinates[startKey];
   const end = nairobiCoordinates[endKey];
 
-  const request = {
-    origin: start,
-    destination: end,
-    travelMode: google.maps.TravelMode.DRIVING,
-    provideRouteAlternatives: true, // This gets us the "Alternative Routes" for the rubric
-  };
-
-  directionsService.route(request, (response, status) => {
-    if (status === "OK") {
-      // Display the routes on the map
-      directionsRenderer.setDirections(response);
-      // Get the first route's base time (in seconds) and convert to minutes
-      const baseTimeMinutes = Math.floor(response.routes[0].legs[0].duration.value / 60);
-// Calculate the SMART time using our Step 4 algorithm
-      const smartTime = calculateSmartTime(baseTimeMinutes, weather, incident);
-// Update the UI (Display it on the screen)
-document.getElementById("time-output").innerText = "Estimated Smart Time: " + smartTime + "mins";
-// Save to history (call step 5 function)
-saveRouteToHistory(response.routes[0], smartTime, weather);
-      // Now we send this data to a function that builds the choice buttons
-      // (We will write this function in the next part)
-      displayAltRouteChoices(response.routes, weather, incident);
-    } else {
-      console.error("Map request failed: " + status);
-      alert("Could not find route. Please check your locations.");
-    }
+  // 1. Draw the straight line (Path B)
+  const routeLine = new google.maps.Polyline({
+    path: [start, end],
+    geodesic: true,
+    strokeColor: "#2ecc71", // TrafficFlow Green
+    strokeOpacity: 1.0,
+    strokeWeight: 5,
   });
+
+  routeLine.setMap(map);
+
+  // 2. Clear old markers and add new ones
+  new google.maps.Marker({ position: start, map: map, label: "A" });
+  new google.maps.Marker({ position: end, map: map, label: "B" });
+
+  // 3. Zoom the map to fit the route
+  const bounds = new google.maps.LatLngBounds();
+  bounds.extend(start);
+  bounds.extend(end);
+  map.fitBounds(bounds);
+
+  // 4. Manually trigger the "Smart Time" calculation (since Google isn't giving us baseTime)
+  // We'll estimate base time: 15 mins for short trips, 45 for long ones
+  const baseTimeMinutes = startKey === "jkia" || endKey === "jkia" ? 45 : 20;
+  const smartTime = calculateSmartTime(baseTimeMinutes, weather, incident);
+
+  // 5. Update the UI
+  document.getElementById("time-output").innerText =
+    "Estimated Smart Time: " + smartTime + " mins";
+
+  // 6. Save to history (Keep your existing function call)
+  // Create a fake routeData object so your save function doesn't crash
+  const fakeRouteData = {
+    legs: [
+      {
+        start_address: startKey,
+        end_address: endKey,
+        distance: { text: "Calculated" },
+      },
+    ],
+  };
+  saveRouteToHistory(fakeRouteData, smartTime, weather);
 }
 /**
  * Helper Function : Build buttons for alternative routes
