@@ -69,51 +69,42 @@ function initMap() {
  * Function to fetch routes from Google and trigger the Smart Factor
  */
 function calculateAndDisplayRoute(startKey, endKey, weather, incident) {
-  const start = nairobiCoordinates[startKey];
-  const end = nairobiCoordinates[endKey];
+    const start = nairobiCoordinates[startKey];
+    const end = nairobiCoordinates[endKey];
 
-  // 1. Draw the straight line (Path B)
-  const routeLine = new google.maps.Polyline({
-    path: [start, end],
-    geodesic: true,
-    strokeColor: "#2ecc71", // TrafficFlow Green
-    strokeOpacity: 1.0,
-    strokeWeight: 5,
-  });
+    // 1. Draw the straight line (Path B)
+    const routeLine = new google.maps.Polyline({
+        path: [start, end],
+        geodesic: true,
+        strokeColor: "#2ecc71", // TrafficFlow Green
+        strokeOpacity: 1.0,
+        strokeWeight: 5,
+    });
+    
+    routeLine.setMap(map);
 
-  routeLine.setMap(map);
+    // 2. Clear old markers and add new ones
+    new google.maps.Marker({ position: start, map: map, label: "A" });
+    new google.maps.Marker({ position: end, map: map, label: "B" });
 
-  // 2. Clear old markers and add new ones
-  new google.maps.Marker({ position: start, map: map, label: "A" });
-  new google.maps.Marker({ position: end, map: map, label: "B" });
+    // 3. Zoom the map to fit the route
+    const bounds = new google.maps.LatLngBounds();
+    bounds.extend(start);
+    bounds.extend(end);
+    map.fitBounds(bounds);
 
-  // 3. Zoom the map to fit the route
-  const bounds = new google.maps.LatLngBounds();
-  bounds.extend(start);
-  bounds.extend(end);
-  map.fitBounds(bounds);
+    // 4. Manually trigger the "Smart Time" calculation (since Google isn't giving us baseTime)
+    // We'll estimate base time: 15 mins for short trips, 45 for long ones
+    const baseTimeMinutes = (startKey === "jkia" || endKey === "jkia") ? 45 : 20;
+    const smartTime = calculateSmartTime(baseTimeMinutes, weather, incident);
 
-  // 4. Manually trigger the "Smart Time" calculation (since Google isn't giving us baseTime)
-  // We'll estimate base time: 15 mins for short trips, 45 for long ones
-  const baseTimeMinutes = startKey === "jkia" || endKey === "jkia" ? 45 : 20;
-  const smartTime = calculateSmartTime(baseTimeMinutes, weather, incident);
-
-  // 5. Update the UI
-  document.getElementById("time-output").innerText =
-    "Estimated Smart Time: " + smartTime + " mins";
-
-  // 6. Save to history (Keep your existing function call)
-  // Create a fake routeData object so your save function doesn't crash
-  const fakeRouteData = {
-    legs: [
-      {
-        start_address: startKey,
-        end_address: endKey,
-        distance: { text: "Calculated" },
-      },
-    ],
-  };
-  saveRouteToHistory(fakeRouteData, smartTime, weather);
+    // 5. Update the UI
+    document.getElementById("time-output").innerText = "Estimated Smart Time: " + smartTime + " mins";
+    
+    // 6. Save to history (Keep your existing function call)
+    // Create a fake routeData object so your save function doesn't crash
+    const fakeRouteData = { legs: [{ start_address: startKey, end_address: endKey, distance: { text: "Calculated" } }] };
+    saveRouteToHistory(fakeRouteData, smartTime, weather);
 }
 /**
  * Helper Function : Build buttons for alternative routes
