@@ -113,7 +113,7 @@ function displayAltRouteChoices (routes, weather, incident) {
       const btn = document.createElement("button");
       btn.className = "glass-btn-small";
       btn.style.margin= "5px";
-      btn.innerHTML = '<b>Option ${index +1}:</b> ${route.summary}<br><small>${altSmartTime} mins</small></b>';
+      btn.innerHTML = `<b>Option ${index +1}:</b> ${route.summary}<br><small>${altSmartTime} mins</small>`;
       btn.onclick = () => {
         directionsRenderer.setRouteIndex(index);
         document.getElementById("time-output").innerText = "Selected Route Time: " + altSmartTime + "mins";

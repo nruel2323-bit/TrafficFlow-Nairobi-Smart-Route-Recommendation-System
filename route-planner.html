@@ -1,46 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TrafficFlow | Route Planner</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="planner-page">
-    <header>
-        <nav>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="route-planner.html" class="active">Plan Route</a></li>
-                <li><a href="insights.html">Insights</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main class="planner-container">
-        <section class="glass-panel">
-            <h2>Smart Route Engine</h2>
-            <p>Input your details to calculate the perfect departure time.</p>
-            <form id="trafficForm">
+<main class="planner-container">
+    <section class="glass-panel">
+        <h2>Smart Route Engine</h2>
+        <p>Select your trip details for the Nairobi Smart calculation.</p>
+        
+        <!-- FIX 1: Change ID to route-form to match script.js -->
+        <form id="route-form">
+            <div class="input-group">
+                <label>Starting Point</label>
+                <select id="start-point" class="glass-input" required>
+                    <option value="cbd">Nairobi CBD</option>
+                    <option value="westlands">Westlands</option>
+                    <option value="upperhill">Upper Hill</option>
+                    <option value="jkia">JKIA</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Destination</label>
+                <select id="destination-point" class="glass-input" required>
+                    <option value="westlands" selected>Westlands</option>
+                    <option value="cbd">Nairobi CBD</option>
+                    <option value="kilimani">Kilimani</option>
+                    <option value="jkia">JKIA</option>
+                </select>
+            </div>
+
+            <div class="factors-grid">
                 <div class="input-group">
-                    <label for="dest">Destination</label>
-                    <input type="text" id="dest" placeholder="e.g. Westlands" required>
+                    <label>Weather</label>
+                    <select id="weather-factor">
+                        <option value="clear">Clear Skies</option>
+                        <option value="light-rain">Light Rain</option>
+                        <option value="heavy-rain">Heavy Rain</option>
+                    </select>
                 </div>
-                <div class="factors-grid">
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="isRaining">
-                    </label>
-                    <label class="checkbox-container">
-                        <input type="checkbox" id="isEvent">
-                    </label>
-
+                <div class="input-group">
+                    <label>Incidents</label>
+                    <select id="incident-factor">
+                        <option value="none">No Incidents</option>
+                        <option value="nyayo-event">Nyayo Stadium Event</option>
+                        <option value="cbd-protest">CBD Protest</option>
+                    </select>
                 </div>
-                <button type="submit" class="calc-btn"Save & Analyse Route></button>
-            </form>
-            <div id="formFeedback"></div>
-        </section>
+            </div>
 
-    </main>
- <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>   
-    <script src="js/planner.js"></script>
-</body>
-</html>
+            <button type="submit" class="calc-btn">Get Smart Route</button>
+        </form>
+    </section>
+
+    <!-- FIX 2: Added containers for the Map and Results -->
+    <section id="route-result" style="display: none;" class="glass-panel">
+        <h3 id="time-output">Calculating...</h3>
+        <div id="alt-routes"></div>
+    </section>
+
+    <!-- FIX 3: Added the Map Div -->
+    <div id="map" style="width: 100%; height: 400px; margin-top: 20px; border-radius: 15px;"></div>
+</main>
