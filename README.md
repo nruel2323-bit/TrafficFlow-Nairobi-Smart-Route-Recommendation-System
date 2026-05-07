@@ -45,7 +45,7 @@ login.css → Styling and designing login.html
 ## 📂 Project File Structure
 
 ```bash
-TrafficFlow/
+TrafficFlowNairobi/
 │
 ├── index.html
 ├── route-planner.html
@@ -67,17 +67,18 @@ TrafficFlow/
 
 ## Key Concept
 This project focuses on major traffic congestion routes in Nairobi and provides a simplified simulation of how a smart traffic system can help users avoid delays by choosing better routes and travel times.
-________________________________________
+
 Note for Future Development
 In the future, this system can be improved by integrating real-time traffic data, maps, GPS tracking, and a backend database to make it more accurate and scalable.
-________________________________________
+
 Project Tagline 
 Plan smarter routes. Avoid the jam.
 
 ## 👤 Author(s) Information
 
 Name: [RUEL NDEGE]  
-GitHub: []
+GitHub Live link: [https://nruel2323-bit.github.io/TrafficFlow-Nairobi-Smart-Route-Recommendation-System/]
+GitHub repo: [https://github.com/nruel2323-bit/TrafficFlow-Nairobi-Smart-Route-Recommendation-System]
 
 ---
 

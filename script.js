@@ -1,8 +1,3 @@
-// ==========================================
-// PROJECT: TrafficFlow Nairobi - Smart Route
-// GOAL: FSD-FT01 30/30 (Functional Logic)
-// ==========================================
-
 /**
  * 1. NAIROBI GEOLOCATION DATA
  * Mapping landmarks to coordinates for Google Maps API.
@@ -76,7 +71,7 @@ function calculateAndDisplayRoute(startKey, endKey, weather, incident) {
     const routeLine = new google.maps.Polyline({
         path: [start, end],
         geodesic: true,
-        strokeColor: "#2ecc71", // TrafficFlow Green
+        strokeColor: "blue", // 
         strokeOpacity: 1.0,
         strokeWeight: 5,
     });
