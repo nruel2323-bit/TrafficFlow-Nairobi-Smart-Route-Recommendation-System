@@ -150,21 +150,28 @@ function calculateSmartTime(baseMinutes, weatherKey, incidentKey) {
  * 5. DATA PERSISTENCE (LocalStorage)
  * Handling the saving of route history so it appears on the Insights Page.
  */
-function saveRouteToHistory(routeData, smartTime, weather){
-  // Create a clean object with the info we need
+function saveRouteToHistory(routeData, smartTime, weather) {
+  // Safe check: If routeData is a string (manual), or an object (Google)
+  const startName = routeData.legs
+    ? routeData.legs[0].start_address
+    : routeData.startKey;
+  const endName = routeData.legs
+    ? routeData.legs[0].end_address
+    : routeData.endKey;
+
   const tripEntry = {
     id: Date.now(),
-    origin: routeData.legs[0].start_address,
-    destination:routeData.legs[0].end_address,
-    distance:routeData.legs[0].distance.text,
-    duration: smartTime + "mins",
+    origin: startName,
+    destination: endName,
+    distance: routeData.legs ? routeData.legs[0].distance.text : "Calculated",
+    duration: smartTime + " mins",
     condition: weather,
     date: new Date().toLocaleDateString(),
   };
-  let tripHistory = JSON.parse(localStorage.getItem("trafficFlow_history")) || [];
-tripHistory.unshift(tripEntry);
-localStorage.setItem('trafficFlow_history', JSON.stringify(tripHistory));
-console.log("Trip saved to LocalStorage successfully.");
+
+  const history = JSON.parse(localStorage.getItem("routeHistory")) || [];
+  history.push(tripEntry);
+  localStorage.setItem("routeHistory", JSON.stringify(history));
 }
 // [saveRouteToHistory Function]
 // [loadRouteHistory Function]
@@ -196,4 +203,9 @@ if(routeForm) {
 
     calculateAndDisplayRoute(start, end, weather, incident);
   });
+}
+// At the very bottom of script.js
+if (document.getElementById("map")) {
+    // Only start the map if the map div actually exists!
+    initMap();
 }
