@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="planner-page">
+    <div class="slideshow-container">
+    <div class="slide slide1"></div>
+    <div class="slide slide2"></div>
+    <div class="slide slide3"></div>
+    <div class="slide slide4"></div>
+    <div class="overlay"></div> </div>
     <header>
         <nav>
             <ul class="nav-links">
@@ -17,59 +23,70 @@
         </nav>
     </header>
     <main class="planner-container">
-        <section class="glass-panel">
-            <h2>Smart Route Engine</h2>
-            <p>Input your details to calculate the perfect departure time.</p>
-            <form id="route-form"> <div class="input-group">
-        <label>Starting Point</label>
-        <select id="start-point" class="glass-input" required>
-            <option value="cbd">Nairobi CBD</option>
-            <option value="westlands">Westlands</option>
-            <option value="upperhill">Upper Hill</option>
-            <option value="jkia">JKIA</option>
-        </select>
-    </div>
+    <section class="glass-panel">
+    <div class="panel-design-layer"></div> 
+    
+    <div class="panel-content">
+        <h2 class="slide-element">SMART ENGINE</h2>
+        <p class="slide-element">TrafficFlow Nairobi v1.0</p>
+        
+        <form id="route-form">
+            <div class="input-group slide-element">
+                <label>Starting Point</label>
+                <select id="start-point" class="glass-input" required>
+                    <option value="cbd">Nairobi CBD</option>
+                    <option value="westlands">Westlands</option>
+                    <option value="upperhill">Upper Hill</option>
+                    <option value="jkia">JKIA</option>
+                </select>
+                <i class="fa-solid fa-location-dot"></i>
+            </div>
 
-    <div class="input-group">
-        <label>Destination</label>
-        <select id="destination-point" class="glass-input" required>
-            <option value="westlands">Westlands</option>
-            <option value="cbd">Nairobi CBD</option>
-            <option value="kilimani">Kilimani</option>
-            <option value="jkia">JKIA</option>
-        </select>
-    </div>
+            <div class="input-group slide-element">
+                <label>Destination</label>
+                <select id="destination-point" class="glass-input" required>
+                    <option value="westlands">Westlands</option>
+                    <option value="cbd">Nairobi CBD</option>
+                    <option value="kilimani">Kilimani</option>
+                    <option value="jkia">JKIA</option>
+                </select>
+                <i class="fa-solid fa-flag-checkered"></i>
+            </div>
 
-    <div class="factors-grid">
-        <div class="input-group">
-            <label>Weather</label>
-            <select id="weather-factor">
-                <option value="clear">Clear Skies</option>
-                <option value="light-rain">Light Rain</option>
-                <option value="heavy-rain">Heavy Rain</option>
-            </select>
+            <div class="factors-grid">
+                <div class="input-group slide-element">
+                    <label>Weather</label>
+                    <select id="weather-factor" class="glass-input">
+                        <option value="clear">Clear Skies</option>
+                        <option value="light-rain">Light Rain</option>
+                        <option value="heavy-rain">Heavy Rain</option>
+                    </select>
+                </div>
+                <div class="input-group slide-element">
+                    <label>Incidents</label>
+                    <select id="incident-factor" class="glass-input">
+                        <option value="none">No Incidents</option>
+                        <option value="nyayo-event">Nyayo Event</option>
+                        <option value="cbd-protest">CBD Protest</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="calc-btn slide-element">Analyse Route</button>
+        </form>
+
+        <div id="route-result" style="display: none;">
+            <h3 id="time-output"></h3>
+            <div id="alt-routes"></div>
         </div>
-        <div class="input-group">
-            <label>Incidents</label>
-            <select id="incident-factor">
-                <option value="none">No Incidents</option>
-                <option value="nyayo-event">Nyayo Event</option>
-                <option value="cbd-protest">CBD Protest</option>
-            </select>
-        </div>
     </div>
+</section>
 
-    <button type="submit" class="calc-btn">Save & Analyse Route</button>
-</form>
-<div id="route-result" style="display: none; margin-top: 20px;">
-    <h3 id="time-output" style="color: #3498db; font-size: 1.5rem;"></h3>
-    <div id="alt-routes"></div> </div>
-
-<div id="map" style="width: 100%; height: 400px; margin-top: 25px; border-radius: 15px;"></div>
-            <div id="formFeedback"></div>
-        </section>
-
-    </main>
+    <div id="map-container">
+        <div id="map" style="width: 100%; height: 100%; border-radius: 15px;"></div>
+        <div class="map-overlay-glow"></div>
+    </div>
+</main>
  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAk849_6mV5Z6c_NE_DHbNYesXSVylYycQ&callback=initMap" async defer></script>   
     <script src="script.js"></script>
 </body>

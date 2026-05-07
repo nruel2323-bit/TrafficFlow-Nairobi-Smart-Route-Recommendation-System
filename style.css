@@ -1,3 +1,63 @@
+/* --- FULL PAGE SLIDESHOW --- */
+
+.slideshow-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2; /* Keeps it behind everything */
+    overflow: hidden;
+}
+
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation: slideAnimation 60s infinite; /* 20s x 3 images = 60s total loop */
+}
+
+/* Add your Nairobi Images here */
+.slide1 { 
+    background-image: url('T6.jpeg'); 
+    animation-delay: 0s;
+}
+.slide2 { 
+    background-image: url('T4.jpeg'); 
+    animation-delay: 10s;
+}
+.slide3 { 
+    background-image: url('T5.jpeg'); 
+    animation-delay: 20s;
+}
+.slide4 {
+    background-image: url('T4.jpeg'); 
+    animation-delay: 30s;
+}
+
+/* The dark overlay ensures your text/map stays visible */
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(26, 26, 46, 0.85); /* Adjust 0.85 to make it darker/lighter */
+    z-index: -1;
+}
+
+/* Animation: Fades images in and out */
+@keyframes slideAnimation {
+    0% { opacity: 0; }
+    5% { opacity: 1; }   /* Fade in */
+    33% { opacity: 1; }  /* Stay visible for 20s */
+    38% { opacity: 0; }  /* Fade out */
+    100% { opacity: 0; }
+}
 :root {
     --text-white: #ffffff;
     --glass-bg: rgba(0,0,0,0.6);
@@ -23,28 +83,64 @@ body{
     color: var(--text-white);
     min-height: 100vh;
 }
+/* --- GLASSMORPHISM NAV BAR --- */
 header {
-    padding: 30px 8%;
+    /* Transparent background with a slight tint */
+    background: rgba(255, 255, 255, 0.05); 
+    
+    /* The most important part: The Blur */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px); /* Safari support */
+    
+    /* A thin white highlight on top and the neon blue on bottom */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 2px solid #00d4ff; 
+    
+    padding: 20px 8%; 
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    
+    /* Gives it that floating "lifted" look */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
 }
+
 nav {
     display: flex;
-    justify-content: space-between; 
+    justify-content: space-between;
     align-items: center;
 }
 
 .nav-links {
-    display: flex; 
+    display: flex;
     list-style: none;
     gap: 40px;
-}.nav-links a:hover, .nav-links a.active{
-    opacity: 1;
-    border-bottom: 2px solid white;
-
 }
+
+.nav-links a {
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    transition: 0.4s ease;
+    padding: 8px 12px;
+    border-radius: 8px; /* Subtle roundness for hover states */
+}
+
+/* Hover and Active states with "Glow-on-Glass" effect */
+.nav-links a:hover, .nav-links a.active {
+    color: #00d4ff;
+    background: rgba(0, 212, 255, 0.1); /* Slight blue tint on the glass */
+    text-shadow: 0 0 15px rgba(0, 212, 255, 0.8);
+}
+
 .logo-center {
     font-size: 1.8rem;
     font-weight: 900;
     letter-spacing: -1px;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
 }
 .hero-content {
     padding: 5% 10%;
@@ -154,4 +250,224 @@ input[type="text"], input[type="time"] {
     .factor-grid{
         grid-template-columns: 1fr;
     }
+}
+
+/* --- SMART TRAFFIC SIGNALS CSS --- */
+
+/* Module Container - Glassmorphism style */
+.smart-traffic-module {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    text-align: center;
+    max-width: 200px; /* Adjust to fit sidebar */
+}
+
+.smart-traffic-module h3 {
+    color: var(--nairobi-green); /* Using our new green variable */
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+
+/* Traffic Light Body */
+.traffic-light-container {
+    background: #222;
+    width: 60px;
+    border-radius: 30px;
+    padding: 10px;
+    margin: 0 auto 20px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 4px solid #444;
+}
+
+/* Base Light Circle */
+.light {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #333; /* Dark/Off by default */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Active State Colors & Glow (Neon) */
+.light.red.active {
+    background-color: #e74c3c;
+    box-shadow: 0 0 20px #e74c3c, 0 0 30px #e74c3c;
+}
+
+.light.yellow.active {
+    background-color: #f1c40f;
+    box-shadow: 0 0 20px #f1c40f, 0 0 30px #f1c40f;
+}
+
+.light.green.active {
+    background-color: #2ecc71;
+    box-shadow: 0 0 20px #2ecc71, 0 0 30px #2ecc71;
+}
+
+/* Crosswalk Styles */
+.pedestrian-light {
+    font-size: 2.5rem;
+    margin-bottom: 5px;
+    color: #444; /* Dull when inactive */
+    transition: color 0.3s ease;
+}
+
+/* Pedestrian Glows */
+.pedestrian-light .walk-symbol.active {
+    color: #2ecc71; /* Green Walk */
+    filter: drop-shadow(0 0 10px #2ecc71);
+}
+
+.pedestrian-light .stop-symbol.active {
+    color: #e74c3c; /* Red Stop (Hand) */
+    filter: drop-shadow(0 0 10px #e74c3c);
+}
+/* Layout Controller */
+.planner-container {
+    display: flex;
+    flex-direction: row; /* Forces side-by-side */
+    gap: 25px;
+    padding: 30px;
+    height: 90vh;
+    align-items: flex-start;
+}
+
+/* Fix for the Factors Grid to be two-column */
+.factors-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Map Container needs to grow to fill the right side */
+#map-container {
+    flex: 1;
+    height: 100%;
+    min-height: 500px;
+    position: relative;
+    border: 2px solid #00d4ff;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 212, 255, 0.2);
+}
+
+/* Overlay for that 'Cyber' grid feel */
+.map-overlay-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    background: 
+        linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+    background-size: 25px 25px;
+    border-radius: 15px;
+}
+/* 1. Panel Container Styling */
+.glass-panel {
+    position: relative; /* Needed for the design layer */
+    flex: 0 0 400px;
+    background: #0f111a; /* Dark base from your image */
+    border: 2px solid #00d4ff;
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    border-radius: 15px;
+    overflow: hidden; /* Clips the diagonal shape */
+    padding: 0; /* Padding moves to the content div */
+}
+
+/* 2. The Diagonal Design Layer (The 'Welcome' part look) */
+.panel-design-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0081a7 0%, #00afb9 100%);
+    clip-path: polygon(0 0, 45% 0, 15% 100%, 0% 100%); /* Diagonal cut */
+    opacity: 0.6; /* Makes it look sleek and high-tech */
+    z-index: 1;
+}
+
+/* 3. Content Layer */
+.panel-content {
+    position: relative;
+    z-index: 2; /* Sits above the diagonal design */
+    padding: 30px;
+}
+
+/* 4. Minimalist Inputs (The white lines from your image) */
+.input-group {
+    position: relative;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.8); /* The clean white line */
+    margin-bottom: 25px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.75rem;
+    color: #00d4ff;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.glass-input {
+    width: 100%;
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    padding: 8px 0;
+    font-size: 1rem;
+    outline: none;
+}
+
+/* Icons inside the inputs */
+.input-group i {
+    position: absolute;
+    right: 5px;
+    top: 25px;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* 5. The Pill Button */
+.calc-btn {
+    width: 100%;
+    background: linear-gradient(to right, #0081a7, #00afb9) !important;
+    border: none;
+    border-radius: 25px;
+    padding: 15px;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    margin-top: 10px;
+}
+select.glass-input {
+    appearance: none; /* Removes default browser arrow */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300d4ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    padding-right: 30px;
+}
+#time-output {
+    color: #00d4ff !important;
+    text-shadow: 0 0 10px rgba(0, 212, 255, 0.6);
+    font-weight: 800;
+    letter-spacing: 1px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; text-shadow: 0 0 20px rgba(0, 212, 255, 1); }
+    100% { opacity: 0.8; }
 }
