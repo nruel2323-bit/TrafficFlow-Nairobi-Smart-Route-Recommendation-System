@@ -22,32 +22,39 @@
             </ul>
         </nav>
     </header>
-    <main>
-        <section class="insights-content">
-            <h1>Route <br><span>Analysis.</span></h1>
-            <div id="resultsDisplay" class="glass-panel">
-                <p>No route data found. Please use the Planner first.</p>
+   <main class="planner-container">
+    <section class="glass-panel insights-panel">
+        <div class="panel-design-layer"></div>
+        
+        <div class="panel-content">
+            <div class="insights-header">
+                <h1>Route <br><span>Analysis.</span></h1>
+                <div id="resultsDisplay">
+                    <p>No route data found. Please use the Planner first.</p>
+                </div>
             </div>
-        </section>
-        <section>
-            <div class="insights-container">
-    <h2>Recent Trip Insights</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Route</th>
-                <th>Distance</th>
-                <th>Smart Time</th>
-                <th>Weather</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody id="history-table-body">
-            </tbody>
-    </table>
-</div>
-        </section>
-    </main>
+
+            <div class="insights-table-wrapper">
+                <h2>Recent Trip Insights</h2>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Route</th>
+                                <th>Distance</th>
+                                <th>Smart Time</th>
+                                <th>Weather</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-table-body">
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
     <script src="insights.js"></script>
 </body>
 </html>
